@@ -321,28 +321,42 @@ h2 {
   margin-top: 14px;
 }
 
+.social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* icon base */
 .icon-btn {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  transition: transform 0.2s ease;
+  transition: all 0.18s ease;
+  background: transparent;
 }
 
+/* icon style (Zhongyu-like: neutral gray) */
 .icon-btn img {
-  width: 20px;
-  height: 20px;
-  filter: grayscale(1) brightness(0.3);
-  transition: transform 0.2s ease, filter 0.2s ease;
+  width: 16px;
+  height: 16px;
+  filter: grayscale(1) brightness(0.55);
+  opacity: 0.85;
+  transition: all 0.18s ease;
 }
 
-/* Zhongyu style hover */
+/* hover state (Zhongyu style accent blue) */
 .icon-btn:hover {
-  transform: scale(1.25);
+  transform: scale(1.15);
+  background: rgba(37, 99, 235, 0.08);
 }
 
 .icon-btn:hover img {
-  filter: none;
+  filter: grayscale(0) brightness(1);
+  opacity: 1;
 }

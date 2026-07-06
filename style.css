@@ -283,8 +283,8 @@ h2 {
 }
 
 .icon-btn {
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -293,10 +293,10 @@ h2 {
 }
 
 .icon-btn img {
-  width: 16px;
-  height: 16px;
-  filter: grayscale(1) brightness(0.55);
-  opacity: 0.85;
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(35%);
+  opacity: 0.9;
   transition: all 0.18s ease;
 }
 
@@ -306,8 +306,7 @@ h2 {
 }
 
 .icon-btn:hover img {
-  filter: grayscale(0);
-  opacity: 1;
+  filter: brightness(0) saturate(100%) invert(32%) sepia(98%) saturate(1500%) hue-rotate(200deg);
 }
 
 /* =========================

@@ -4,6 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Yizhe Yang - Homepage</title>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+      let savedTheme = null;
+
+      try {
+        savedTheme = localStorage.getItem("homepage-theme");
+      } catch {}
+
+      root.dataset.theme =
+        savedTheme === "light" || savedTheme === "dark"
+          ? savedTheme
+          : systemTheme.matches
+            ? "dark"
+            : "light";
+    })();
+  </script>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -28,6 +46,11 @@
         </a>
       </div>
 
+      <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
+        <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle-label">Dark mode</span>
+      </button>
+
     </aside>
 
     <main class="content">
@@ -38,7 +61,7 @@
         </p>
         
         <p>
-          <span style="color: red;"><strong>"I am actively seeking for Phd position and a Research internship in 2027. I am happy to engage in discussions regarding potential opportunities!"</strong></span>
+          <span class="announcement"><strong>"I am actively seeking for Phd position and a Research internship in 2027. I am happy to engage in discussions regarding potential opportunities!"</strong></span>
         </p>
       </section>
 
@@ -54,7 +77,7 @@
       <section id="news">
         <h2>🔥 News</h2>
         <ul class="news-list">
-          <li><span style="color: red;"><strong>[Pinned to top]</strong> I am actively seeking for Phd position and a Research internship in 2027. I am happy to engage in discussions regarding potential opportunities!</span></li>
+          <li><span class="announcement"><strong>[Pinned to top]</strong> I am actively seeking for Phd position and a Research internship in 2027. I am happy to engage in discussions regarding potential opportunities!</span></li>
           <li><strong>2026.05</strong> 🎉🎉'SCOPE' get accepted to KDD 2026 .</li>
           <li><strong>2026.03</strong> 🎉🎉'Bridge Your Fields' get accepted to CVPR 2026 .</li>
           <li><strong>2025.05</strong> Project SSL-MultipleInputsExplicableXGBoost selected as Outstanding Undergraduate Project (TOP 0.1%) under <strong>Fundamental Research Funds for the Central Universities</strong>, advised by <a href="https://scholar.google.com/citations?user=frqMhBhE-pMC&hl=en"> Prof. Wei Lan</a>.</li>
@@ -135,5 +158,61 @@
       </section>
     </main>
   </div>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const toggle = document.getElementById("theme-toggle");
+      const icon = toggle.querySelector(".theme-toggle-icon");
+      const label = toggle.querySelector(".theme-toggle-label");
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+      let hasSavedTheme = false;
+
+      try {
+        hasSavedTheme = ["light", "dark"].includes(localStorage.getItem("homepage-theme"));
+      } catch {}
+
+      const syncToggle = () => {
+        const isDark = root.dataset.theme === "dark";
+        const action = isDark ? "Switch to light mode" : "Switch to dark mode";
+
+        icon.textContent = isDark ? "☀️" : "🌙";
+        label.textContent = isDark ? "Light mode" : "Dark mode";
+        toggle.setAttribute("aria-label", action);
+        toggle.setAttribute("title", action);
+        toggle.setAttribute("aria-pressed", String(isDark));
+      };
+
+      const setTheme = (theme, save = false) => {
+        root.dataset.theme = theme;
+
+        if (save) {
+          try {
+            localStorage.setItem("homepage-theme", theme);
+            hasSavedTheme = true;
+          } catch {}
+        }
+
+        syncToggle();
+      };
+
+      toggle.addEventListener("click", () => {
+        setTheme(root.dataset.theme === "dark" ? "light" : "dark", true);
+      });
+
+      const followSystemTheme = (event) => {
+        if (!hasSavedTheme) {
+          setTheme(event.matches ? "dark" : "light");
+        }
+      };
+
+      if (typeof systemTheme.addEventListener === "function") {
+        systemTheme.addEventListener("change", followSystemTheme);
+      } else {
+        systemTheme.addListener(followSystemTheme);
+      }
+
+      syncToggle();
+    })();
+  </script>
 </body>
 </html>
